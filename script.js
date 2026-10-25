@@ -184,3 +184,40 @@ homeTabs.addEventListener("click", e => {
 if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
   document.querySelectorAll(".orbit svg").forEach(s => s.pauseAnimations());
 }
+
+/* ===== Animations: scroll reveal + count-up numbers ===== */
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const reveal = new IntersectionObserver(entries => entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    const el = en.target;
+    reveal.unobserve(el);
+    el.classList.add("in");
+    setTimeout(() => { el.classList.remove("reveal", "in"); el.style.transitionDelay = ""; }, 1000);
+  }), { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+
+  document.querySelectorAll(".section .item, .section h2, .section .eyebrow, .stats > div, .split > *, .founder > *, .cta .wrap, .page-head .wrap > *, .tabs").forEach(el => {
+    el.classList.add("reveal");
+    el.style.transitionDelay = Math.min([...el.parentNode.children].indexOf(el), 6) * 70 + "ms";
+    reveal.observe(el);
+  });
+
+  const counter = new IntersectionObserver(entries => entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    const el = en.target;
+    counter.unobserve(el);
+    const end = +el.dataset.end, suf = el.dataset.suf, dec = +el.dataset.dec, t0 = performance.now();
+    (function tick(t) {
+      const p = Math.min((t - t0) / 1400, 1);
+      el.textContent = (end * (1 - Math.pow(1 - p, 3))).toFixed(dec) + suf;
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }), { threshold: 0.6 });
+
+  document.querySelectorAll(".stats strong").forEach(el => {
+    const m = el.textContent.match(/^([\d.]+)(.*)$/);
+    if (!m) return;
+    el.dataset.end = m[1]; el.dataset.suf = m[2]; el.dataset.dec = (m[1].split(".")[1] || "").length;
+    el.textContent = "0" + m[2];
+    counter.observe(el);
+  });
+}

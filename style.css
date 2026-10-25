@@ -81,7 +81,7 @@ nav a.talk:hover,nav a.talk.active{border-color:var(--coral);color:var(--coral)}
 .orbit text{font:500 10px var(--font);letter-spacing:.2em;fill:#f9a493}
 .chip{position:absolute;display:flex;align-items:center;gap:.5rem;padding:.55rem .9rem;border:1px solid var(--navy-line);background:var(--navy);font-size:.82rem;color:var(--on-dark)}
 .chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--coral)}
-.chip.a{left:2%;top:26%}.chip.b{right:0;top:12%}.chip.c{right:4%;bottom:14%}
+.chip.a{left:2%;top:26%}.chip.b{right:0;top:12%}.chip.c{right:4%;bottom:32%}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ===== about intro + stats ===== */
@@ -253,3 +253,35 @@ a.post-card:hover{border-color:var(--coral)}
 @media (max-width:600px){.logo{font-size:.95rem;letter-spacing:.04em;gap:.5rem}.logo-mark{width:38px;height:38px}}
 .hp{position:absolute;left:-9999px;width:1px;height:1px}
 .ok.fail{background:#fbe9e6;color:#8a2412}
+
+/* ===== Animations ===== */
+.page.show{animation:pageIn .45s ease}
+.hero .hero-brand,.hero .eyebrow,.hero h1,.hero p,.hero .actions{opacity:0;animation:fadeUp .8s ease forwards}
+.hero .eyebrow{animation-delay:.1s}
+.hero h1{animation-delay:.2s}
+.hero p{animation-delay:.35s}
+.hero .actions{animation-delay:.5s}
+.orbit{animation:fadeIn 1.2s .3s both}
+.chip{animation:float 6s ease-in-out infinite}
+.chip.b{animation-delay:-1s}.chip.c{animation-delay:-2s}.chip.d{animation-delay:-3s}.chip.e{animation-delay:-4s}.chip.f{animation-delay:-5s}
+
+.item{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.item:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(6,26,43,.14)}
+.item .ico{transition:background .25s ease,stroke .25s ease}
+.item:hover .ico{background:var(--coral);stroke:var(--navy)}
+.btn{transition:background .2s ease,transform .2s ease}
+.btn:hover{transform:translateY(-2px)}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+@keyframes pageIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes float{50%{transform:translateY(-8px)}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .hero .hero-brand,.hero .eyebrow,.hero h1,.hero p,.hero .actions{opacity:1}
+  .reveal{opacity:1;transform:none}
+}
