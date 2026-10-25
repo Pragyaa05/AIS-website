@@ -219,3 +219,35 @@ a.post-card:hover{border-color:var(--coral)}
 .founder{display:grid;grid-template-columns:.8fr 1.2fr;gap:4rem;align-items:center}
 .founder img{display:block;width:100%;max-width:420px;aspect-ratio:1;object-fit:cover}
 @media (max-width:900px){.g2,.founder{grid-template-columns:1fr}.founder{gap:2rem}}
+
+/* ===== AIS logo + hero brand ===== */
+.logo-mark{width:44px;height:44px;flex:none}
+.hero-brand{font-weight:800;font-size:clamp(1.5rem,3vw,2.1rem);letter-spacing:.16em;color:var(--white);margin-bottom:1rem;line-height:1}
+.hero-brand span{color:var(--coral)}
+
+/* ===== Truck animation + extra chips ===== */
+.orbit .truck-line,.orbit .wheel{fill:none;stroke:#f9a493;stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
+.orbit .truck-body{animation:drive .5s ease-in-out infinite alternate}
+.orbit .wheel{transform-box:fill-box;transform-origin:center;animation:roll .6s linear infinite}
+.orbit .speed{animation:streak .9s linear infinite}
+.orbit .speed path{fill:none;stroke:#f9a493;stroke-width:2.5;stroke-linecap:round}
+.chip.d{left:0;bottom:24%}
+.chip.e{left:34%;top:2%}
+.chip.f{right:26%;bottom:1%}
+@keyframes drive{to{transform:translateY(-1.5px)}}
+@keyframes roll{to{transform:rotate(360deg)}}
+@keyframes streak{from{transform:translateX(8px);opacity:0}30%{opacity:.8}to{transform:translateX(-14px);opacity:0}}
+@media (max-width:600px){.chip{font-size:.7rem;padding:.35rem .55rem;gap:.35rem}.chip::before{width:6px;height:6px}}
+@media (prefers-reduced-motion:reduce){.orbit .truck-body,.orbit .wheel,.orbit .speed{animation:none}}
+
+/* ===== Hamburger button ===== */
+.menu-btn{padding:.75rem .7rem}
+.bars{display:block;width:22px;height:16px;position:relative}
+.bars i{position:absolute;left:0;width:100%;height:2px;background:currentColor;transition:transform .25s ease,opacity .2s ease,top .25s ease}
+.bars i:nth-child(1){top:0}
+.bars i:nth-child(2){top:7px}
+.bars i:nth-child(3){top:14px}
+.menu-btn[aria-expanded="true"] .bars i:nth-child(1){top:7px;transform:rotate(45deg)}
+.menu-btn[aria-expanded="true"] .bars i:nth-child(2){opacity:0}
+.menu-btn[aria-expanded="true"] .bars i:nth-child(3){top:7px;transform:rotate(-45deg)}
+@media (max-width:600px){.logo{font-size:.95rem;letter-spacing:.04em;gap:.5rem}.logo-mark{width:38px;height:38px}}

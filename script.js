@@ -147,3 +147,8 @@ homeTabs.addEventListener("click", e => {
   document.getElementById("highlightGrid").hidden = !biz;
   document.getElementById("bizLink").hidden = !biz;
 });
+
+/* ===== Stop orbit motion for visitors who prefer reduced motion ===== */
+if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  document.querySelectorAll(".orbit svg").forEach(s => s.pauseAnimations());
+}
