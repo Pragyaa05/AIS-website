@@ -251,3 +251,5 @@ a.post-card:hover{border-color:var(--coral)}
 .menu-btn[aria-expanded="true"] .bars i:nth-child(2){opacity:0}
 .menu-btn[aria-expanded="true"] .bars i:nth-child(3){top:7px;transform:rotate(-45deg)}
 @media (max-width:600px){.logo{font-size:.95rem;letter-spacing:.04em;gap:.5rem}.logo-mark{width:38px;height:38px}}
+.hp{position:absolute;left:-9999px;width:1px;height:1px}
+.ok.fail{background:#fbe9e6;color:#8a2412}

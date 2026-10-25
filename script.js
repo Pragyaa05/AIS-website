@@ -48,7 +48,9 @@ const rules = {
   email:   v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
 };
 
-form.addEventListener("submit", e => {
+const WEB3FORMS_KEY = "8331dc1f-fa9e-438a-ab5e-f6d53d2428d2";
+
+form.addEventListener("submit", async e => {
   e.preventDefault();
   let valid = true;
   for (const [key, test] of Object.entries(rules)) {
@@ -58,11 +60,41 @@ form.addEventListener("submit", e => {
     if (!good) valid = false;
   }
   if (!valid) return;
+
   const data = Object.fromEntries(new FormData(form));
-  /* TODO: send `data` to your backend, form service or email API here. */
-  console.log("Enquiry:", data);
-  form.reset();
-  document.getElementById("ok").style.display = "block";
+  const okBox = document.getElementById("ok");
+  const failBox = document.getElementById("fail");
+  const btn = form.querySelector("button[type=submit]");
+  okBox.style.display = failBox.style.display = "none";
+  if (data.botcheck) return; /* spam trap */
+
+  if (WEB3FORMS_KEY.startsWith("YOUR_")) {
+    failBox.textContent = "The form is not connected yet. Please call or email us.";
+    failBox.style.display = "block";
+    return;
+  }
+
+  btn.disabled = true; btn.textContent = "Sending...";
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: "New Transkey enquiry from website",
+        from_name: "Transkey website",
+        ...data
+      })
+    });
+    const out = await res.json();
+    if (!out.success) throw new Error(out.message);
+    form.reset();
+    okBox.style.display = "block";
+  } catch (err) {
+    failBox.textContent = "Sorry, we could not send your enquiry. Please call or email us.";
+    failBox.style.display = "block";
+  }
+  btn.disabled = false; btn.textContent = "Send enquiry";
 });
 
 document.getElementById("yr").textContent = new Date().getFullYear();
