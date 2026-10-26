@@ -87,7 +87,7 @@ nav a.talk:hover,nav a.talk.active{border-color:var(--coral);color:var(--coral)}
 .orbit text{font:500 10px var(--font);letter-spacing:.2em;fill:#f9a493}
 .chip{position:absolute;display:flex;align-items:center;gap:.5rem;padding:.55rem .9rem;border:1px solid var(--navy-line);background:var(--navy);font-size:.82rem;color:var(--on-dark)}
 .chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--coral)}
-.chip.a{left:2%;top:26%}.chip.b{right:0;top:12%}.chip.c{right:4%;bottom:32%}
+.chip.a{left:2%;top:26%}.chip.b{right:0;top:25%}.chip.c{right:4%;bottom:32%}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ===== about intro + stats ===== */
