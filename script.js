@@ -17,13 +17,16 @@ const menuBtn = document.getElementById("menuBtn");
 
 function route() {
   const id = location.hash.slice(1) || "home";
-  const target = pages.find(p => p.id === id) || pages[0];
+  /* #plans etc. point at a section inside a page: show that page, then scroll to the section */
+  let target = pages.find(p => p.id === id), anchor = null;
+  if (!target) { anchor = document.getElementById(id); target = (anchor && anchor.closest(".page")) || pages[0]; }
   pages.forEach(p => p.classList.toggle("show", p === target));
   links.forEach(a => a.classList.toggle("active", a.dataset.link === (target.dataset.parent || target.id)));
   document.getElementById("cta").style.display = target.id === "contact" ? "none" : "";
   nav.classList.remove("open");
   menuBtn.setAttribute("aria-expanded", "false");
   window.scrollTo(0, 0);
+  if (anchor && target.contains(anchor)) requestAnimationFrame(() => anchor.scrollIntoView());
   const h1 = target.querySelector("h1");
   document.title = (target.id === "home" ? "" : h1.textContent + " | ") + "Transkey | Accurate Infoway Solution";
 }
@@ -220,4 +223,103 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
     el.textContent = "0" + m[2];
     counter.observe(el);
   });
+}
+
+
+/* ===== Plans: edit text here ===== */
+const planRegular = ["Online Training & Support","Regular Updates","Minor Customizations","Mobile Application","Tracking API In Existing Website","SMS"];
+const planOptional = ["Offline Training & Support Visits","Advance Updates","Major Customizations","New Developments by Accurate Infoway","eWay Bill API Integration","GPS API Integration","WhatsApp Messages","Auto Report Scheduler","Visit Consultancy"];
+const planTabs = [
+  { name:"Per Branch Plan", blurb:"Licensed by the number of branches you run.",
+    boxes:[
+      { t:"Regular Features", i:planRegular },
+      { t:"Optional Features", i:planOptional },
+      { t:"Module List", i:["Application Administration","Stationery Inventory","Operations","Accounts","CRM"] },
+      { t:"Branches Available", i:["1-5 Branches","6-10 Branches","11-20 Branches"] }
+    ] },
+  { name:"Monthly Subscription Plan", blurb:"A subscription billed every month.",
+    boxes:[
+      { t:"Regular Features", i:planRegular },
+      { t:"Optional Features", i:planOptional },
+      { t:"Module List", wide:true, i:["Application Administration","Stationery Inventory","Operations","Accounts","CRM","Sales & Marketing","Fleet Management"] }
+    ] },
+  { name:"Customized Plan", custom:true }
+];
+
+const planTabList = document.getElementById("planTabs");
+const planPanel = document.getElementById("planPanel");
+const planCustom = document.getElementById("planCustom");
+function showPlan(n) {
+  const p = planTabs[n];
+  planTabList.querySelectorAll(".tab").forEach((t, i) => t.setAttribute("aria-selected", i === n));
+  planCustom.hidden = !p.custom;
+  planPanel.hidden = !!p.custom;
+  if (p.custom) return;
+  planPanel.innerHTML =
+    `<p class="plan-blurb">${p.blurb}</p><div class="plan-grid">` +
+    p.boxes.map(b => `<div class="plan-box${b.wide ? " wide cols" : ""}"><h3>${b.t}</h3><ul>${b.i.map(x => `<li>${x}</li>`).join("")}</ul></div>`).join("") +
+    `</div><div class="plan-cta"><a class="btn" href="#contact" data-quote="${p.name}">Request quote</a></div>`;
+  planPanel.style.animation = "none"; planPanel.offsetWidth; planPanel.style.animation = "";
+}
+planTabList.innerHTML = planTabs.map((t, i) => `<button type="button" class="tab" role="tab" data-n="${i}">${t.name}</button>`).join("");
+planTabList.addEventListener("click", e => { const b = e.target.closest(".tab"); if (b) showPlan(+b.dataset.n); });
+showPlan(0);
+
+/* Request quote: go to the Talk to us page and pre-fill the message */
+planPanel.addEventListener("click", e => {
+  const a = e.target.closest("[data-quote]"); if (!a) return;
+  const msg = document.getElementById("message");
+  if (msg && !msg.value.trim()) msg.value = `I would like a quote for the ${a.dataset.quote}.`;
+});
+
+/* Customized plan form (same checks and delivery as the Talk to us form) */
+const customForm = document.getElementById("customForm");
+customForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  let valid = true;
+  for (const [key, test] of Object.entries(rules)) {
+    const field = customForm.elements[key];
+    const good = test(field.value);
+    field.closest(".field").classList.toggle("bad", !good);
+    if (!good) valid = false;
+  }
+  if (!valid) return;
+
+  const data = Object.fromEntries(new FormData(customForm));
+  const okBox = document.getElementById("cpOk"), failBox = document.getElementById("cpFail");
+  const btn = customForm.querySelector("button[type=submit]");
+  okBox.style.display = failBox.style.display = "none";
+  if (data.botcheck) return;
+
+  btn.disabled = true; btn.textContent = "Sending...";
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: "New Transkey customized plan request",
+        from_name: "Transkey website",
+        plan: "Customized Plan",
+        ...data
+      })
+    });
+    const out = await res.json();
+    if (!out.success) throw new Error(out.message);
+    customForm.reset();
+    okBox.style.display = "block";
+  } catch (err) {
+    failBox.textContent = "Sorry, we could not send your request. Please call or email us.";
+    failBox.style.display = "block";
+  }
+  btn.disabled = false; btn.textContent = "Request custom plan";
+});
+
+/* ===== Services: start the "productive" animation when it scrolls into view ===== */
+const prodSection = document.getElementById("productive");
+if (prodSection) {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) prodSection.classList.add("in");
+  else new IntersectionObserver((entries, obs) => entries.forEach(en => {
+    if (en.isIntersecting) { prodSection.classList.add("in"); obs.disconnect(); }
+  }), { threshold: 0.25 }).observe(prodSection);
 }

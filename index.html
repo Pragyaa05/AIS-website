@@ -41,6 +41,7 @@
 <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
 <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
 <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.500 8-8 9-4.500-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+<symbol id="i-code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
 </svg>
 
 <!-- Top contact bar -->
@@ -126,12 +127,19 @@
         <div>
           <!-- <div class="eyebrow">01 / About us</div> -->
           <h2>About Transkey</h2>
+          <picture class="about-pic side">
+            <img src="images/about-transkey.svg" alt="TRANSKEY.ERP modules: Operations, Accounting and Finance, GST and Compliance, MIS Reports, Security and Control" width="1200" height="540" loading="lazy">
+          </picture>
         </div>
         <div>
           <p>As one of India’s pioneers in dedicated transport and logistics software, we provide comprehensive solutions for operations, fleet management, and accounting. Our flagship product, <b>TRANSKEY.ERP</b>, is a powerful, user-friendly Transport Management Software that seamlessly links and tracks every stage of your logistics cycle. From Consignment Notes and Lorry Hire Challans (including advance and balance payments) to final billing, money receipts, and delivery tracking, it manages it all across multiple branches. Driven by the trust and referrals of our valued customers, we continuously update our software to support a rapidly growing client base.</p><br>
           <a class="link" href="#about">Meet Transkey</a>
         </div>
       </div>
+      <picture class="about-pic below">
+        <source media="(max-width:700px)" srcset="images/about-transkey-mobile.svg">
+        <img src="images/about-transkey.svg" alt="TRANSKEY.ERP modules: Operations, Accounting and Finance, GST and Compliance, MIS Reports, and Security and Control" width="1200" height="760" loading="lazy">
+      </picture>
       <div class="stats">
         <div><strong>1500+</strong><span>Users</span></div>
         <div><strong>100%</strong><span>Customer Satisfaction</span></div>
@@ -229,6 +237,50 @@ All applications are barcode and qr code enabled, which results in performing fa
     </div>
   </section>
 
+  <section class="section white" id="plans">
+    <div class="wrap">
+      <div class="eyebrow">Plans</div>
+      <h2>Pick the plan that fits <em>your business.</em></h2>
+      <p>Choose how you want to pay, see what is included, and ask for a quote.</p>
+      <div class="tabs" id="planTabs" role="tablist" aria-label="Plans"></div>
+      <div id="planPanel" class="plan-panel" role="tabpanel"></div>
+
+      <div id="planCustom" class="plan-custom" role="tabpanel" hidden>
+        <div class="plan-custom-intro">
+          <h3>Build a plan around your business</h3>
+          <p>Need a different mix of modules, branches or integrations? Tell us what you need and we will put together a plan and a quote for you.</p>
+          <ul class="ticks">
+            <li>Choose only the modules you need</li>
+            <li>Any number of branches</li>
+            <li>Custom features and integrations</li>
+            <li>Training and support to match</li>
+          </ul>
+        </div>
+        <form id="customForm" novalidate>
+          <div class="row">
+            <div class="field"><label for="cp-name">Your name</label><input id="cp-name" name="name" autocomplete="name" required><span class="err">Enter your name.</span></div>
+            <div class="field"><label for="cp-company">Company name</label><input id="cp-company" name="company" autocomplete="organization" required><span class="err">Enter your company name.</span></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="cp-mobile">Mobile number</label><input id="cp-mobile" name="mobile" type="tel" inputmode="tel" autocomplete="tel" placeholder="10-digit number" required><span class="err">Enter a valid 10-digit mobile number.</span></div>
+            <div class="field"><label for="cp-email">Email</label><input id="cp-email" name="email" type="email" autocomplete="email" required><span class="err">Enter a valid email address.</span></div>
+          </div>
+          <div class="field"><label for="cp-branches">Number of branches</label>
+            <select id="cp-branches" name="branches">
+              <option value="">Select branches</option>
+              <option>1-5 Branches</option><option>6-10 Branches</option><option>11-20 Branches</option><option>More than 20 Branches</option>
+            </select>
+          </div>
+          <div class="field"><label for="cp-message">What do you need?</label><textarea id="cp-message" name="message" placeholder="Modules, integrations, anything specific"></textarea></div>
+          <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn" type="submit">Request custom plan</button>
+          <div class="ok fail" id="cpFail" role="alert"></div>
+          <div class="ok" id="cpOk" role="status">Thank you. We have received your request and will call you soon.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
 </div>
 
 <!-- ABOUT -->
@@ -322,6 +374,30 @@ All applications are barcode and qr code enabled, which results in performing fa
         <p>Cloud services are a subset of hosted services specifically hosted on the cloud. This means the hardware, network, storage, and composite solutions are from a cloud vendor.</p>
       </article>
 
+    </div>
+  </section>
+
+  <section class="section dark prod" id="productive">
+    <div class="wrap">
+      <div class="prod-head">
+        <div class="eyebrow">Beyond the software</div>
+        <h2>We make your work more <em>productive.</em></h2>
+      </div>
+      <div class="prod-grid">
+        <div class="prod-col left">
+          <article class="prod-item" style="--d:0"><svg class="ico" aria-hidden="true"><use href="#i-target"/></svg><div><h3>Digital Marketing</h3><p>Reach more shippers and transporters with SEO, social media and targeted campaigns that bring in genuine enquiries.</p></div></article>
+          <article class="prod-item" style="--d:2"><svg class="ico" aria-hidden="true"><use href="#i-code"/></svg><div><h3>API Integration</h3><p>Connect Transkey with e-way bill, GPS, SMS, WhatsApp and your own website through reliable APIs.</p></div></article>
+        </div>
+        <div class="prod-center" aria-hidden="true">
+          <span class="sq sq1"></span><span class="sq sq2"></span>
+          <span class="orb"><i></i><i></i></span>
+          <img src="images/productive.png" alt="" width="420" height="420" loading="lazy">
+        </div>
+        <div class="prod-col right">
+          <article class="prod-item" style="--d:1"><svg class="ico" aria-hidden="true"><use href="#i-mobile"/></svg><div><h3>Mobile App Development</h3><p>Android and iOS apps for booking, tracking and POD, built around how your team really works on the road.</p></div></article>
+          <article class="prod-item" style="--d:3"><svg class="ico" aria-hidden="true"><use href="#i-cloud"/></svg><div><h3>Cloud Infra Solution</h3><p>Secure cloud hosting with regular backups, so every branch can work from anywhere without managing servers.</p></div></article>
+        </div>
+      </div>
     </div>
   </section>
 </div>
@@ -457,6 +533,59 @@ All applications are barcode and qr code enabled, which results in performing fa
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
     <a href="mailto:transkey10@gmail.com">transkey10@gmail.com</a>
   </p>
+
+  <!-- Animated help illustration -->
+  <svg class="help-art" viewBox="0 0 440 320" role="img" aria-label="A support agent with a headset, chat bubbles, a phone and an email">
+    <defs><clipPath id="hClip"><circle cx="220" cy="165" r="78"/></clipPath></defs>
+    <ellipse class="h-glow" cx="220" cy="170" rx="195" ry="135"/>
+    <circle class="h-ring" cx="220" cy="165" r="108"/>
+    <circle class="h-ring2" cx="220" cy="165" r="124"/>
+    <circle cx="220" cy="165" r="78" fill="var(--navy)"/>
+    <g clip-path="url(#hClip)">
+      <path d="M160 250c0-34 26-54 60-54s60 20 60 54z" fill="var(--coral)"/>
+      <path d="M206 196l14 16 14-16z" fill="#fff" opacity=".9"/>
+    </g>
+    <circle cx="220" cy="152" r="25" fill="#ffd9cf"/>
+    <path d="M195 128c6-10 18-14 30-12 12 2 20 10 22 22-12-2-26-8-34-18-6 6-12 8-18 8z" fill="#0b2338"/>
+    <path d="M192 150a28 28 0 0 1 56 0" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+    <rect x="186" y="146" width="11" height="22" rx="5.500" fill="var(--coral)"/>
+    <rect x="243" y="146" width="11" height="22" rx="5.500" fill="var(--coral)"/>
+    <path d="M249 166c0 14-12 20-26 20" fill="none" stroke="#fff" stroke-width="3.500" stroke-linecap="round"/>
+    <circle cx="222" cy="186" r="4.500" fill="var(--coral)"/>
+    <circle cx="214" cy="153" r="2.200" fill="var(--navy)"/><circle cx="228" cy="153" r="2.200" fill="var(--navy)"/>
+    <path d="M214 162q7 6 14 0" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round"/>
+    <path class="wave w1" d="M262 140q9 10 0 20"/><path class="wave w2" d="M270 132q15 18 0 36"/>
+
+    <!-- typing bubble -->
+    <g transform="translate(22 52)"><g class="fl">
+      <rect width="112" height="50" rx="16" fill="var(--navy)"/>
+      <path d="M22 50l-8 14 22-14z" fill="var(--navy)"/>
+      <circle class="td" cx="38" cy="25" r="5" fill="#fff"/><circle class="td d2" cx="56" cy="25" r="5" fill="#fff"/><circle class="td d3" cx="74" cy="25" r="5" fill="#fff"/>
+    </g></g>
+
+    <!-- sent bubble -->
+    <g transform="translate(312 40)"><g class="fl f2"><g class="pop">
+      <rect width="104" height="50" rx="16" fill="var(--coral)"/>
+      <path d="M82 50l10 14-26-14z" fill="var(--coral)"/>
+      <path d="M22 26l8 8 14-16" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="54" y="20" width="36" height="5" rx="2.500" fill="#fff" opacity=".85"/><rect x="54" y="30" width="24" height="5" rx="2.500" fill="#fff" opacity=".6"/>
+    </g></g></g>
+
+    <!-- envelope -->
+    <g transform="translate(34 218)"><g class="fl f3">
+      <rect width="66" height="46" rx="6" fill="#fff" stroke="var(--navy)" stroke-width="3"/>
+      <path d="M4 8l29 22 29-22" fill="none" stroke="var(--coral)" stroke-width="3.500" stroke-linecap="round" stroke-linejoin="round"/>
+    </g></g>
+
+    <!-- phone -->
+    <g transform="translate(340 206)"><g class="ring-phone">
+      <rect width="42" height="70" rx="9" fill="#fff" stroke="var(--navy)" stroke-width="3"/>
+      <rect x="6" y="9" width="30" height="42" rx="3" fill="#e4ebef"/>
+      <circle cx="21" cy="60" r="3" fill="var(--coral)"/>
+      <path d="M15 22h12M15 30h12M15 38h7" stroke="var(--navy)" stroke-width="3" stroke-linecap="round"/>
+    </g></g>
+    <g class="sparks"><circle cx="318" cy="200" r="3"/><circle cx="392" cy="196" r="3"/><circle cx="404" cy="290" r="3"/><circle cx="120" cy="140" r="3"/></g>
+  </svg>
 </div>
       <form id="contactForm" novalidate>
         <div class="row">
@@ -489,7 +618,7 @@ All applications are barcode and qr code enabled, which results in performing fa
 <footer>
   <div class="wrap cols">
     <div><h3>Transkey</h3><p>Logistics ERP by Accurate Infoway Solution. Software built for transport and logistics companies, from booking to billing.</p></div>
-    <div><h3>Pages</h3><a href="#home">Home</a><a href="#about">About us</a><a href="#services">Services</a><a href="#solutions">Solutions</a><a href="#blog">Blog</a><a href="#contact">Contact</a></div>
+    <div><h3>Pages</h3><a href="#home">Home</a><a href="#about">About us</a><a href="#services">Services</a><a href="#solutions">Solutions</a><a href="#plans">Plans</a><a href="#blog">Blog</a><a href="#contact">Contact</a></div>
     <div><h3>Contact</h3><p>+91 9339553601</p><p>transkey10@gmail.com</p></div>
   </div>
   <div class="wrap copy">&copy; <span id="yr"></span> Accurate Infoway Solution. All rights reserved.</div>
