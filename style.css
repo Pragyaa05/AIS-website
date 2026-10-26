@@ -447,3 +447,9 @@ select:focus{outline:2px solid var(--coral);outline-offset:0;border-color:var(--
   .chip.b{top:33%}
   .chip.c{bottom:27%}
 }
+
+
+
+
+/*Pop-up in the center*/
+dialog{margin:auto}
