@@ -410,3 +410,40 @@ select:focus{outline:2px solid var(--coral);outline-offset:0;border-color:var(--
   .prod-item,.prod-center{opacity:1;transform:none}
   .prod-item::after{width:3.2rem}
 }
+
+/* ===== About page: animated logistics illustration ===== */
+.about-art-wrap{width:100%}
+.about-art{display:block;width:100%;height:auto;border:1px solid var(--navy-line)}
+.about-art .aa-route{fill:none;stroke:#f76b4d;stroke-width:2;stroke-dasharray:4 9;stroke-linecap:round;animation:aaDash 1.4s linear infinite}
+.about-art .aa-pulse{fill:rgba(247,107,77,.35);transform-box:fill-box;transform-origin:center;animation:aaPulse 2.4s ease-out infinite}
+.about-art .aa-pin.p2 .aa-pulse{animation-delay:-1.2s}
+.about-art .aa-label{font:500 11px var(--font);letter-spacing:.12em;fill:#9fb4c4;text-transform:uppercase}
+.about-art .aa-big{font:300 30px var(--font);letter-spacing:-.03em;fill:#fff}
+.about-art .aa-small{font:400 11px var(--font);fill:#9fb4c4}
+.about-art .aa-float{animation:float 6s ease-in-out infinite}
+.about-art .aa-city path,.about-art .aa-city rect{fill:#0b2338;stroke:#1f3a52;stroke-width:1.2}
+.about-art .aa-city .aa-door{fill:none}
+.about-art .aa-win rect{fill:#f9a493;animation:aaTwinkle 4s ease-in-out infinite}
+.about-art .aa-win rect:nth-child(2n){animation-delay:-1.3s}
+.about-art .aa-win rect:nth-child(3n){animation-delay:-2.6s}
+.about-art .aa-lane{stroke:#44627a;stroke-width:3;stroke-dasharray:22 20;animation:aaLane .8s linear infinite}
+.about-art .aa-truck{animation:aaDrive 10s linear infinite}
+.about-art .aa-bob{animation:drive .5s ease-in-out infinite alternate}
+.about-art .aa-cargo{font:800 10px var(--font);letter-spacing:.14em;fill:#061a2b}
+.about-art .aa-wheel{transform-box:fill-box;transform-origin:center;animation:roll .6s linear infinite}
+.about-art .aa-wheel circle{fill:#061a2b;stroke:#f9a493;stroke-width:2.5}
+.about-art .aa-wheel path{stroke:#f9a493;stroke-width:2;stroke-linecap:round}
+.about-art .aa-speed{animation:streak .9s linear infinite}
+.about-art .aa-speed path{fill:none;stroke:#f9a493;stroke-width:2.5;stroke-linecap:round}
+@keyframes aaDash{to{stroke-dashoffset:-13}}
+@keyframes aaPulse{0%{transform:scale(.8);opacity:1}100%{transform:scale(3);opacity:0}}
+@keyframes aaTwinkle{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes aaLane{to{stroke-dashoffset:-42}}
+@keyframes aaDrive{from{transform:translateX(-140px)}to{transform:translateX(660px)}}
+@media (prefers-reduced-motion:reduce){.about-art .aa-truck{transform:translateX(260px)}.about-art .aa-dot{display:none}}
+
+/* ===== Mobile: sit the "FTL & PartLoad" and "Fleet" chips a little lower ===== */
+@media (max-width:600px){
+  .chip.b{top:33%}
+  .chip.c{bottom:27%}
+}
