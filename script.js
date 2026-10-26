@@ -9,30 +9,9 @@ const postCard = p =>
 document.querySelectorAll("[data-blog-preview]").forEach(el => el.innerHTML = posts.map(postCard).join(""));
 document.querySelectorAll("[data-blog-list]").forEach(el => el.innerHTML = posts.concat(posts).map(postCard).join(""));
 
-/* ===== Hash router (#home, #about, ...) ===== */
-const pages = [...document.querySelectorAll(".page")];
-const links = [...document.querySelectorAll("[data-link]")];
+/* ===== Mobile menu ===== */
 const nav = document.getElementById("nav");
 const menuBtn = document.getElementById("menuBtn");
-
-function route() {
-  const id = location.hash.slice(1) || "home";
-  /* #plans etc. point at a section inside a page: show that page, then scroll to the section */
-  let target = pages.find(p => p.id === id), anchor = null;
-  if (!target) { anchor = document.getElementById(id); target = (anchor && anchor.closest(".page")) || pages[0]; }
-  pages.forEach(p => p.classList.toggle("show", p === target));
-  links.forEach(a => a.classList.toggle("active", a.dataset.link === (target.dataset.parent || target.id)));
-  document.getElementById("cta").style.display = target.id === "contact" ? "none" : "";
-  nav.classList.remove("open");
-  menuBtn.setAttribute("aria-expanded", "false");
-  window.scrollTo(0, 0);
-  if (anchor && target.contains(anchor)) requestAnimationFrame(() => anchor.scrollIntoView());
-  const h1 = target.querySelector("h1");
-  document.title = (target.id === "home" ? "" : h1.textContent + " | ") + "Transkey | Accurate Infoway Solution";
-}
-addEventListener("hashchange", route);
-route();
-
 menuBtn.addEventListener("click", () => {
   const open = nav.classList.toggle("open");
   menuBtn.setAttribute("aria-expanded", open);
@@ -53,7 +32,7 @@ const rules = {
 
 const WEB3FORMS_KEY = "8331dc1f-fa9e-438a-ab5e-f6d53d2428d2";
 
-form.addEventListener("submit", async e => {
+if (form) form.addEventListener("submit", async e => {
   e.preventDefault();
   let valid = true;
   for (const [key, test] of Object.entries(rules)) {
@@ -143,6 +122,7 @@ const featureTabs = [
   ]}
 ];
 
+if (document.getElementById("highlightGrid")) {
 /* ===== Home highlights + popup ===== */
 const dlg = document.getElementById("featureDialog");
 const grid = document.getElementById("highlightGrid");
@@ -158,7 +138,9 @@ grid.addEventListener("click", e => {
 });
 document.getElementById("dlgClose").addEventListener("click", () => dlg.close());
 dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+}
 
+if (document.getElementById("tabList")) {
 /* ===== Solutions: tabs + accordions ===== */
 const tabList = document.getElementById("tabList");
 const tabPanel = document.getElementById("tabPanel");
@@ -171,10 +153,11 @@ function showTab(n) {
 tabList.innerHTML = featureTabs.map((t, i) => `<button type="button" class="tab" role="tab" data-n="${i}">${t.name}</button>`).join("");
 tabList.addEventListener("click", e => { const b = e.target.closest(".tab"); if (b) showTab(+b.dataset.n); });
 showTab(0);
+}
 
 /* ===== Home tabs: Technology / Business features ===== */
 const homeTabs = document.getElementById("homeTabs");
-homeTabs.addEventListener("click", e => {
+if (homeTabs) homeTabs.addEventListener("click", e => {
   const b = e.target.closest(".tab"); if (!b) return;
   homeTabs.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", t === b));
   const biz = b.dataset.t === "biz";
@@ -246,6 +229,7 @@ const planTabs = [
   { name:"Customized Plan", custom:true }
 ];
 
+if (document.getElementById("planTabs")) {
 const planTabList = document.getElementById("planTabs");
 const planPanel = document.getElementById("planPanel");
 const planCustom = document.getElementById("planCustom");
@@ -258,19 +242,12 @@ function showPlan(n) {
   planPanel.innerHTML =
     `<p class="plan-blurb">${p.blurb}</p><div class="plan-grid">` +
     p.boxes.map(b => `<div class="plan-box${b.wide ? " wide cols" : ""}"><h3>${b.t}</h3><ul>${b.i.map(x => `<li>${x}</li>`).join("")}</ul></div>`).join("") +
-    `</div><div class="plan-cta"><a class="btn" href="#contact" data-quote="${p.name}">Request quote</a></div>`;
+    `</div><div class="plan-cta"><a class="btn" href="contact.html?plan=${encodeURIComponent(p.name)}">Request quote</a></div>`;
   planPanel.style.animation = "none"; planPanel.offsetWidth; planPanel.style.animation = "";
 }
 planTabList.innerHTML = planTabs.map((t, i) => `<button type="button" class="tab" role="tab" data-n="${i}">${t.name}</button>`).join("");
 planTabList.addEventListener("click", e => { const b = e.target.closest(".tab"); if (b) showPlan(+b.dataset.n); });
 showPlan(0);
-
-/* Request quote: go to the Talk to us page and pre-fill the message */
-planPanel.addEventListener("click", e => {
-  const a = e.target.closest("[data-quote]"); if (!a) return;
-  const msg = document.getElementById("message");
-  if (msg && !msg.value.trim()) msg.value = `I would like a quote for the ${a.dataset.quote}.`;
-});
 
 /* Customized plan form (same checks and delivery as the Talk to us form) */
 const customForm = document.getElementById("customForm");
@@ -314,6 +291,7 @@ customForm.addEventListener("submit", async e => {
   }
   btn.disabled = false; btn.textContent = "Request custom plan";
 });
+}
 
 /* ===== Services: start the "productive" animation when it scrolls into view ===== */
 const prodSection = document.getElementById("productive");
@@ -323,3 +301,8 @@ if (prodSection) {
     if (en.isIntersecting) { prodSection.classList.add("in"); obs.disconnect(); }
   }), { threshold: 0.25 }).observe(prodSection);
 }
+
+/* ===== Talk to us: pre-fill the message when arriving from a plan's "Request quote" ===== */
+const msgBox = document.getElementById("message");
+const planAsked = new URLSearchParams(location.search).get("plan");
+if (msgBox && planAsked && !msgBox.value.trim()) msgBox.value = "I would like a quote for the " + planAsked + ".";
